@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <mapper namespace="com.callor.todo.persistance.TodoDao">
+ 
+ 	<select id="selectAll">
+ 		SELECT * FROM tbl_todoList
+ 	</select>
+ 	
+ 	<!-- 로그인한 사용자만의 todoList 보여주기 위한 Query -->
+ 	<select id="findByUsername" resultType="TodoVO">
+ 		SELECT * FROM tbl_todoList WHERE t_username = #{username}
+ 		ORDER BY t_sdate DESC, t_stime DESC
+ 	</select>
+ 	
+ 	<select id="findById" resultType="TodoVO">
+ 		SELECT * FROM tbl_todolist WHERE t_seq = #{t_seq}
+ 	</select>
+ 	
+ 	<!--  
+ 	insert 를 할때 username 칼럼에 로그인한 사용자 정보를 함께 
+ 	insert 하여 username 에 해당하는 데이터만 추출할 수 있도록 
+ 	-->
+ 	<insert id="insert">
+ 		INSERT INTO tbl_todoList(
+ 			t_username,
+ 			t_sdate,
+ 			t_stime, 
+ 			t_content
+ 		) VALUE(
+	 		#{t_username},
+	 		#{t_sdate},
+	 		#{t_stime},
+	 		#{t_content}
+	 	)
+ 	</insert>
+ 	
+ 	<update id="update">
+ 		UPDATE tbl_todoList
+ 			SET t_content = #{t_content},
+ 				t_edate = #{t_edate},
+ 				t_etime= #{t_etime}
+ 			WHERE t_seq = #{t_seq}
+ 	</update>
+ 	<delete id="delete"></delete>
+ 	
+ 	<select id="create_todo_table">
+ 		CREATE TABLE IF NOT EXISTS tbl_todolist (
+ 			t_seq BIGINT AUTO_INCREMENT PRIMARY KEY,
+		    t_username VARCHAR(20) NOT NULL,
+		    t_sdate VARCHAR(10) NOT NULL,
+		    t_stime VARCHAR(10) NOT NULL,
+		    t_content VARCHAR(125) NOT NULL,
+		    t_edate VARCHAR(10),
+		    t_etime VARCHAR(10)
+		)
+ 	</select>
+ </mapper> 

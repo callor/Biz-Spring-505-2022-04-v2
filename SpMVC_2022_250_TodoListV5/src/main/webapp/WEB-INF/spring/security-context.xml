@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:sec="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/security https://www.springframework.org/schema/security/spring-security-5.3.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+	<!-- 
+		servlet-context 영역과 root-context 영역은 서로 완전히 격리된 영역이다
+		특히 bean 설정과 관련하여 서로 침범할 수 없다
+		security-context.xml 에서 사용할 bean 들은 
+		여기에서 한번 더 scan 을 해 준다
+	 -->
+	<context:component-scan base-package="com.callor.todo.service.auth"/>
+
+	<!-- Security pattern, login, logout 설정하기 -->
+	<sec:http auto-config="true" use-expressions="true">
+	
+		<sec:intercept-url pattern="/user/join" access="permitAll"/>
+		<sec:intercept-url pattern="/user/login" access="isAnonymous()"/>
+		<sec:intercept-url pattern="/user/mypage" access="isAuthenticated()"/>
+		
+		<sec:intercept-url pattern="/todo/**" access="isAuthenticated()"/>
+		
+		<sec:intercept-url pattern="/admin/**" access="isAuthenticated() AND hasRole('ROLE_ADMIN')"/>
+		<sec:intercept-url pattern="/" access="permitAll"/>
+	
+		<sec:form-login login-page="/user/login?error=LOGIN_NEED" 
+				login-processing-url="/user/login"/>
+		<sec:logout/>
+	</sec:http>
+	
+	<sec:authentication-manager>
+		<sec:authentication-provider ref="authenticationProvider"/>
+	</sec:authentication-manager>
+
+</beans>

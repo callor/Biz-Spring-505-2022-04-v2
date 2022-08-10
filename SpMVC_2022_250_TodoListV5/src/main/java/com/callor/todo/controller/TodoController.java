@@ -51,21 +51,47 @@ public class TodoController {
 		return "redirect:/todo";
 	}
 	
-	@RequestMapping(value="/insert",method=RequestMethod.POST)
+	@RequestMapping(value= {"/",""},method=RequestMethod.POST)
 	public  String insert(Principal principal, TodoVO todoVO) {
 		
 		String username = principal.getName();
 		if(username == null) {
 			return "redirect:/user/login?error=LOGIN_NEED";
 		}
-
 		todoVO.setT_username(username);
 		todoService.insert(todoVO);
 		return "redirect:/todo";
-
 	}
+	
+	
+	@RequestMapping(value="/update",method=RequestMethod.GET)
+	public String update(String t_seq, Model model) {
+		
+		Long l_seq = 0L;
+		try {
+			l_seq = Long.valueOf(t_seq);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		TodoVO todoVO = todoService.findById(l_seq);
+		model.addAttribute("TODO",todoVO);
+		model.addAttribute("LAYOUT","TODO_LIST");
+		return "home";
+		
+	}
+	
+	
+	@RequestMapping(value="/update",method=RequestMethod.POST)
+	public String update(TodoVO todoVO, Model model) {
+		todoService.update(todoVO);
+		return "redirect:/todo";
+	}
+	
+	
 
 	
 	
 	
 }
+

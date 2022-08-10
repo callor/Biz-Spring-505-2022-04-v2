@@ -49,8 +49,7 @@ public class TodoServiceImplV1 implements TodoService{
 
 	@Override
 	public int update(TodoVO vo) {
-		// TODO Auto-generated method stub
-		return 0;
+		return todoDao.update(vo);
 	}
 
 	@Override

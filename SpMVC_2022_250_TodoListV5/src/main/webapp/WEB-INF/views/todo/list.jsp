@@ -49,6 +49,19 @@ document.addEventListener("DOMContentLoaded",()=>{
 				title="시작 : ${TODO.t_sdate}, ${TODO.t_stime}" 
 				class="todo_content w3-border w3-padding-16 w3-margin w3-tooltip">
 				${TODO.t_content}<span class="todo_content w3-text" data-seq="${TODO.t_seq}">( 시작 : ${TODO.t_sdate }  ${TODO.t_stime } )</span>
+				
+				<c:if test="${not empty TODO.t_edate}">
+					<span>완료</span>
+					<span>${TODO.t_edate}</span>
+					<span>${TODO.t_etime}</span>
+				</c:if>
+
+				<c:if test="${TODO.t_complete}">
+					<span>완료</span>
+					<span>${TODO.t_edate}</span>
+					<span>${TODO.t_etime}</span>
+				</c:if>
+				
 			</div>
 		</c:forEach>
 		<form:form>

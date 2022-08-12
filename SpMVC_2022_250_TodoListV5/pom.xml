@@ -168,6 +168,7 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+	
 	<build>
 		<plugins>
 			<plugin>
@@ -196,14 +197,37 @@
 					<showDeprecation>true</showDeprecation>
 				</configuration>
 			</plugin>
+
+			<!-- 
+				maven Build tool 을 사용하여 Tomcat 서버에
+				자동으로 Deploy 하기
+			 -->
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>exec-maven-plugin</artifactId>
-				<version>1.2.1</version>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<url>http://localhost:8085/manager/text</url>			
+					<path>/callor</path>
+					<username>admin</username>
+					<password>!aa1234</password>
+					<uriEncoding>UTF-8</uriEncoding>
+					<charset>UTF-8</charset>
+				</configuration>
+			</plugin>
+			
+			<plugin>
+			<!-- https://mvnrepository.com/artifact/org.codehaus.mojo/exec-maven-plugin -->
+			    <groupId>org.codehaus.mojo</groupId>
+    			<artifactId>exec-maven-plugin</artifactId>
+    			<version>3.1.0</version>
+			
 				<configuration>
 					<mainClass>org.test.int1.Main</mainClass>
 				</configuration>
 			</plugin>
+
+	
 		</plugins>
 	</build>
 </project>

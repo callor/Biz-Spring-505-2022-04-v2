@@ -28,10 +28,10 @@ document.addEventListener("DOMContentLoaded",()=>{
     div_body?.addEventListener("click",(e)=>{
         const target = e.target
         if(target.tagName == "DIV" 
-        		&& target?.classList.contains("todo_content")) {
+        		&& target.classList?.contains("todo_content")) {
         	const seq = target?.dataset.seq
         	// if(seq == false)
-        	if(target?.classList.contains("complete")) {
+        	if(!seq) {
         		alert("완료된 항목은 수정할수 없음")
         		return false
         	}
@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded",()=>{
 		<h1 class="w3-text-blue">[ <sec:authentication property="principal.username" /> ] 님의 TODO LIST</h1>
 		<c:forEach items="${TODOS}" var="TODO">
 			<div 
-				data-seq="${TODO.t_seq}"
+				<c:if test='${empty TODO.t_edate}'> data-seq="${TODO.t_seq}" </c:if>
 				title="시작 : ${TODO.t_sdate}, ${TODO.t_stime}" 
 				class="todo_content w3-border w3-padding-16 w3-margin w3-tooltip
 				<c:if test='${not empty TODO.t_edate}'> complete </c:if>

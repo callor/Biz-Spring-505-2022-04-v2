@@ -18,18 +18,6 @@ public class HomeController {
 		return "home";
 	}
 	
-	/*
-	 * 프로젝트의 요청에 대하여 소수의 Controller 를  만들고
-	 * 처리를 할수 있다
-	 * 하지만, 프로젝트 규모가 커지면 코드 관리가 어려워지고
-	 * 결국에는 프로젝트를 Refactoring 해야하는 상황에 직면하게 된다
-	 */
-	@RequestMapping(value="/book/list")
-	public String bookList() {
-		log.debug("book/list");
-		return "books/list";
-	}
-	
-	
+
 	
 }

@@ -1,4 +1,4 @@
-package com.callor.food.config;
+package com.callor.food.configSample;
 
 public class FoodConfig {
 

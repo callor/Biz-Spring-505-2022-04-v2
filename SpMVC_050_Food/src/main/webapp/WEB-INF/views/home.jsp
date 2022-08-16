@@ -13,32 +13,101 @@
 
 <title>나의 API App</title>
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet"
-	href="${rootPath}/static/css/main.css?ver=2022-06-08-001">
-<link rel="stylesheet"
-	href="${rootPath}/static/css/home.css?ver=2022-06-09-001">
+<style>
+* {
+	box-sizing: border-box;
+	margin:0;
+	padding:0;
+}
 
-<link rel="stylesheet"
-	href="${rootPath}/static/css/table.css?ver=2022-06-02-001">
+html {
+	width: 100vw;
+	height: 100vh;
+}
 
+
+
+body {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	height: 100%;
+}
+
+section.main {
+	flex:1;
+}
+
+
+
+header {
+  padding: 1.2rem;
+  text-align: center;
+  background-color: rgb(193, 226, 237);
+  color: rgb(47.41, 41);
+  font-weight: 900;
+}
+
+nav {
+  background-color: skyblue;
+  color: white;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+}
+
+nav li {
+  padding: 3px 16px;
+  margin: 15px;
+  border-bottom: 5px solid transparent;
+  font-weight: 900;
+  font-size: 20px;
+
+  transition: border 0.7s ease-out;
+}
+
+nav li:hover {
+  cursor: pointer;
+  border-bottom: 5px solid rgb(241, 241, 114);
+}
+
+nav li:nth-of-type(4) {
+	margin-left:auto;
+}
+
+a {
+  text-decoration: none;
+}
+
+nav a {
+  color: inherit;
+  white-space: nowrap;
+}
+
+
+footer{
+	background-color: skyblue;
+	text-align: center;
+	padding:1rem;
+}
+</style>
 <script>
 	const rootPath = '${rootPath}'
 </script>
-<script src="${rootPath}/static/js/input.js?ver=2022-06-08-012"></script>
 
 </head>
 <body>
 	<header>
-		<h1>My Api</h1>
-		<p>Naver API 를 활용한 도서, 뉴스, 영화 정보 서비스</p>
+		<h1>MY Api</h1>
+		<p>대한민국 공공 DB API 를 활용한 정보 서비스</p>
 	</header>
 	<nav>
 		<ul>
 			<li><a href="${rootPath}/">Home</a></li>
-			<li><a href="${rootPath}/books/list">도서정보</a></li>
-			<li><a href="${rootPath}/news">오늘의 뉴스</a></li>
-			<li><a href="${rootPath}/movies">영화정보</a></li>
-			<li><a href="${rootPath}/naver">네이버 체험</a></li>
+			<li><a href="${rootPath}/about">대하여</a></li>
+			<li><a href="${rootPath}/food">맛집정보</a></li>
 	
 			<% // 로그인을 하지 않았을때 %>		
 			<c:if test="${ empty USER}">
@@ -57,46 +126,19 @@
 	<section class="main">
 		<c:choose>
 			<c:when test="${LAYOUT == 'JOIN' }">
-				<%@ include file="/WEB-INF/views/user/join.jsp" %>
+				<% // 회원가입 폼 include %>
 			</c:when>
 			<c:when test="${LAYOUT == 'LOGIN' }">
-				<%@ include file="/WEB-INF/views/user/login.jsp" %>
+				<% // 로그인 include %>
 			</c:when>
 			<c:when test="${LAYOUT == 'MYPAGE' }">
-				<%@ include file="/WEB-INF/views/user/mypage.jsp" %>
+				<% // mypage include %>
 			</c:when>
 		</c:choose>
 	</section>
 	<footer class="main">
 		<address>CopyRight &copy; callor@callor.com</address>	
 	</footer>
-	<div class="w3-modal modal-result">
-		<div class="w3-modal-content w3-card-4">
-			<header class="w3-container w3-teal">
-				<span class="w3-button w3-display-topright modal-close">&times;</span>
-				<h2>도서 검색 정보</h2>
-			</header>
-			<div class="w3-container search-content">
-				<p>여기는 검색결과가 보여지는 곳
-			</div>
-			<footer class="w3-container w3-teal">
-				<address>CopyRight &copy; callor@callor.com</address>
-			</footer>
-		</div>
-		<script>
-			document.querySelector("span.modal-close")?.addEventListener("click",()=>{
-				document.querySelector("div.modal-result").style.display='none'
-			})
-			
-			document.querySelector("footer.main")?.addEventListener("click",()=>{
-				document.querySelector("div.modal-result").style.display='block'
-			})
-			
-		</script>
-	</div>
 </body>
-
-
-
 
 </html>

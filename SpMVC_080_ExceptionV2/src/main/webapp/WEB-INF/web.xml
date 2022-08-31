@@ -1,12 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee https://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+	version="4.0">
+	
+	<filter>
+		<filter-name>encKor</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>encKor</filter-name>
+		<url-pattern>*</url-pattern>
+	</filter-mapping>
 
+	<filter>
+		<filter-name>formFilter</filter-name>
+		<filter-class>org.springframework.web.filter.FormContentFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>formFilter</filter-name>
+		<url-pattern>*</url-pattern>
+	</filter-mapping>
+	<filter>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class> org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>*</url-pattern>
+	</filter-mapping>
 	<!-- The definition of the Root Spring Container shared by all Servlets and Filters -->
+	<!-- 
+	web.xml 의 contextConfigLocation 항목에
+	와일드 카드(*, 모든것)를 지정하는 것
+	
+	파일이름을 구체적으로 root-context.xml 처럼 지정하면
+	파일이 없을경우 파일이름이 잘못되었을 경우
+	프로젝트가 실행자체가 되지 않는다
+	와일드 카드로 *-context.xml 처럼 지정하면
+	일단 파일이 없어도 tomcat 이 
+	scan 중단하기 때문에 프로젝트 실행은 계속 된다
+	여러개의 파일을 한번에 지정하여 코드를
+	좀더 쉽게 볼수 있게 한다
+	
+	다만 특별한 경우 context.xml 들이 실행되는 순서가
+	매우 중요한 경우가 있다 이럴때는 와일드 카드를
+	사용하지 않고 파일이름을 fixed 해주는 것이 좋다
+	-->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>/WEB-INF/spring/root-context.xml</param-value>
+		<param-value>
+		/WEB-INF/spring/*-context.xml
+		</param-value>
 	</context-param>
 	
 	<!-- Creates the Spring Container shared by all Servlets and Filters -->

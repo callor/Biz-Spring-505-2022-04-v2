@@ -14,6 +14,34 @@
 
 * Spring과 Java 환경에서는 logback-classic 을 설정하여 logger 를 추적한다
 
+## Spring Seucurity 설정
+* Spring 의 filter 기능을 활용하여 Security 를 적용한다
+
+## Spring filter
+* 사용자(web browser)가 Request 를 요청하면 Dispatcher Servlet 이라는 친구가 먼저 사용자의 요청을 분석한다. 분석된 URL 에 따라서 적절한 Controller 에게 전달한다.
+
+* filter 는 Dispatcher Serlvet 의 앞에서 Request 를 가로채고 사용자의 요청에 담긴 데이터 등을 분석하여 서버를 다른 방식으로 작동하도록 하는 클래이다
+
+* filter 는 프로젝티의 web.xml 에 설정하여 서버가 작동될때 자동으로 설정을 한다
+
+
+## Http Status Code
+* 200 : 정상 요청, 정상 응답, 데이터가 많을 경우는 준비하고 있으니 기다려라
+* 404 : Not found 요청을 찾을수 없다, 요청을 처리할 Mapping 이 없다. JSP 파일이 없다
+* 500 : 서버의 내부에서 처리중 오류가 발생했다
+* 400 : 요청된 데이터중에 처리할수 없는 데이터가 있다, Bad Request
+* 405 : RequestMapping 은 있는데 GET, POST 등의 처리 방법이 없다
+
+* 301, 303 : Redirect
+* 303 : 로그인이 필요한 페이지에 접근했을때 로그인이 되어 있지 않으면 로그인 페이지로 redirect 한다 이때 서버는 브라우저에게 먼저 303 코드를 보내고 다시 접속할 url 을 전달한다.
+* 301 : 현재 접속하고자 하는 페이지가 없어지고 다른 페이지로 접속해 달라 라는 요청
+
+* 304 : Request 를 받았는데 방금전에 Reponse 한 결과와 똑같은 결과를 또 보내야 하는 경우 좀점에 준 데이터를 그냥 사용해 라는 의미
+
+
+## 보안과 관련된 Http status Code
+* 403 오류에 대해서 계속 진행하기
+
 
 
 

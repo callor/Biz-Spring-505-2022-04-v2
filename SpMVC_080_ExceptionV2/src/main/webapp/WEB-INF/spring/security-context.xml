@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:sec="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/security https://www.springframework.org/schema/security/spring-security-5.3.xsd">
+
+	<!-- 
+	Spring Security Filter Chain 이 적용된 프로젝트에서 
+	Security와 관련된 설정을 하는 context
+	
+	root-context.xml 과 같은 level 의 위치에서 설정
+	-->
+	
+	<!-- 
+	sec:http
+	Security 의 기초 설정
+	1. security 가 적용될 url 지정하기
+	2. login 방법 지정
+	3. logout 방법 지정  
+	-->
+	<sec:http>
+		<sec:intercept-url 
+			pattern="/" access="permitAll"/>
+		<sec:intercept-url
+			pattern="/user/login" access="isAnonymous()"/>
+		<sec:intercept-url
+			pattern="/user/join" access="isAnonymous()"/>
+		<sec:intercept-url
+			pattern="/user/**" access="isAuthenticated()"/>
+
+		<sec:intercept-url
+			pattern="/book/insert" access="isAuthenticated()"/>
+		<sec:intercept-url
+			pattern="/book/update" access="isAuthenticated()"/>
+		<sec:intercept-url
+			pattern="/book/**" access="permitAll"/>
+
+		<sec:form-login	
+			login-page="/login?error=LOGIN_NEED"
+			login-processing-url="/login"
+			username-parameter="username"
+			password-parameter="password"
+		/>
+		<sec:logout
+			invalidate-session="true"
+			delete-cookies="JSESSIONID"
+			logout-success-url="/"
+		/>
+	</sec:http>
+
+	<!-- 
+	security 에 의해 login 이 수행될때 처리하는 방법 지정
+	user-service : inmemory 방식으로 login 방법 지정
+	 	처음 프로젝트를 시작하고 테스트를 수행할때 사용 
+	 	테스트를 위해서 임의의 사용자 정보를 등록하기
+	-->
+	<sec:authentication-manager>
+		<sec:authentication-provider>
+			<sec:user-service>
+				<sec:user name="callor" 
+					authorities="ROLE_ADMIN"
+					password="{noop}!aa1234"/>
+			</sec:user-service>
+		</sec:authentication-provider>
+	</sec:authentication-manager>
+
+
+
+
+</beans>

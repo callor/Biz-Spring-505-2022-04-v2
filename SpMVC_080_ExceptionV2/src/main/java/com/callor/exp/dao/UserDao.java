@@ -12,5 +12,7 @@ public interface UserDao {
 	public int insert(UserVO userVO);
 	public int update(UserVO userVO);
 	public int delete(String id);
+	
+	public void create_user_table();
 
 }

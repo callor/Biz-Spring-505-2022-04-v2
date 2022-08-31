@@ -2,6 +2,7 @@ package com.callor.exp.service.impl;
 
 import java.util.List;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import com.callor.exp.dao.UserDao;
@@ -82,6 +83,28 @@ public class UserServiceimplV1 implements UserService{
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	// UserDao 를 상속받아서 UserService 생성한 까닭에
+	// UserDao 에 method 를 추가하면 ServiceImplV1 에도
+	// Method 가 추가된다. 하지만 이 method 는 사용하지 않는다
+	@Override
+	public void create_user_table() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	/*
+	 *  UserDao.create_uesr_table() method 를
+	 *  호출하여 table 을 생성하는 자동 실행 method 선언
+	 */
+	
+	@Bean
+	public void create_table() {
+		userDao.create_user_table();
+	}
+	
+	
+	
 
 
 }

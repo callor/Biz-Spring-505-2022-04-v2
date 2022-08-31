@@ -9,16 +9,32 @@
 		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
 		http://www.springframework.org/schema/tx https://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 
+	<!-- 
+	Access denied for user (using password: YES) 오류
+	username 은 DB 에 있는 사용자 이나
+	비밀번호가 틀렸거나 비밀번호가 설정되지 않았을때
+	
+	 -->
 	<bean id="ds" class="org.apache.commons.dbcp2.BasicDataSource">
+		<property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
+		<property name="url" value="jdbc:mysql://192.168.0.220:3306/newDB"/>
+		<property name="username" value="callor"/>
+		<property name="password" value="!Korea8085"/>
 	</bean>
 
 	<bean id="sqlFactoy" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="ds"/>
-		<property name="mapperLocations">
-			/WEB-INF/spring/mapper/*-mapper.xml
-		</property>
+		<property name="mapperLocations" 
+			value="/WEB-INF/spring/mapper/*-mapper.xml"/>
+		<property name="typeAliasesPackage" 
+			value="com.callor.exp.model"/>
 	</bean>
 
+	<!-- 
+	dao interface 를 사용하여 mybatis 에게 SQL 관련 코드를 
+	대신 작성하도록 하기 위하여 SqlSessionTemplate 도구를 사용한다
+	이 도구는 SqlSessionFactoryBean 도구를 생성자로 주입받도록 한다
+	-->
 	<bean class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg ref="sqlFactoy"/>
 	</bean>

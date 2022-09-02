@@ -9,6 +9,8 @@ import com.callor.exp.dao.UserDao;
 import com.callor.exp.model.UserVO;
 import com.callor.exp.service.UserService;
 
+import lombok.extern.slf4j.Slf4j;
+
 /*
  * Annotaion 을 부착하여 Bean 으로 생성 요청
  * @Controller, @Service
@@ -24,6 +26,7 @@ import com.callor.exp.service.UserService;
  *  
  * 
  */
+@Slf4j
 @Service
 public class UserServiceimplV1 implements UserService{
 	
@@ -68,8 +71,11 @@ public class UserServiceimplV1 implements UserService{
 
 	@Override
 	public int insert(UserVO userVO) {
+		
+		log.debug("서비스에서 받은 데이터 {}", userVO);
 		userDao.insert(userVO);
 		return 0;
+		
 	}
 
 	@Override

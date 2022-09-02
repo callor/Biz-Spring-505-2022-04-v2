@@ -20,6 +20,7 @@
 		<div>
 			<button>회원가입</button>
 		</div>
+		<input name="${_csrf.parameterName}" value="${_csrf.token}"/>
 	</form>
 </body>
 </html>

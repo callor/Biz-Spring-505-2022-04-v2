@@ -40,9 +40,14 @@
 
 
 ## 보안과 관련된 Http status Code
-* 403 오류에 대해서 계속 진행하기
+### 403 오류
+* 접근금지!! 오류
+* Request를 요청을 했는데 서버가 해당 요청을 이해는 했다.
+* Request 처리할 권한이 없는 경우
+* Spring Security 에서 form mathod를 POST 로 서버 데이터를 전송하였는데 csrf 권한 Token 이 없어서 처리할수 없다는 메시지
 
 
+### csrf : Cross Site Request forgery : 사이트간 요청 변조
 
 
 

@@ -39,8 +39,8 @@
 			pattern="/book/**" access="permitAll"/>
 
 		<sec:form-login	
-			login-page="/login?error=LOGIN_NEED"
-			login-processing-url="/login"
+			login-page="/user/login?error=LOGIN_NEED"
+			login-processing-url="/user/login"
 			username-parameter="username"
 			password-parameter="password"
 		/>
@@ -50,6 +50,23 @@
 			logout-success-url="/"
 		/>
 	</sec:http>
+	<!-- 
+	login-page 의 Custom 할때 주의 사항
+	위 설정에서 /user/** Request 는 무조건 로그인을 해야만 사용할수 있다
+	그런데 로그인이 필요한 페이지에 접속하였을 경우
+	Security 는 login-page 에 설정된 URL 로 Redirect 를 할 것이다
+	
+	근데 공고룝게도 user-page 의 URL 이 /login/ogin 으로 코드를 작성했다
+	이 URL 패턴은 /user/** 패턴에 의해 필터링 되어 다시 login-page 로 redirect 르한다
+	
+	이 과정이 무한이 계속 반복되는 상황이 벌어진다
+	
+	이 상황은 /user/ogin Request 무한하 호출하는 상황이 된다
+	
+	Web Browser 는 Server 로 부터 무한 반복 Redirect 를 요청받게 되고 Browser 자체
+	오류 메시지를 보여주게 된디
+	"리다이렉션 회수가 너무 많다"
+	-->
 
 	<!-- 
 	security 에 의해 login 이 수행될때 처리하는 방법 지정

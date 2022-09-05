@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ballza.lunch.persistance.UserDao">
+
+	<select id="selectAll" resultType="UserVO">
+		select * from tbl_users
+	</select>
+
+	
+	<select id="findById" resultType="UserVO">
+		select * from tbl_users where username=#{username}
+	</select>
+	
+	<insert id="insert" parameterType="UserVO">
+		insert into tbl_users(username, password, enabled, email, realname, nickname)
+		values(#{username},#{password}, #{enabled}, #{email}, #{realname}, #{nickname})
+	</insert>
+	
+	<update id="update"></update>
+	
+	<delete id="delete"></delete>
+	
+	<!-- authorityVO 값을 ??? foreach로 vo를 반복하면서 보내라 -->
+	<insert id="role_insert" parameterType="AuthorityVO">
+		insert into tbl_authorities(username, authority)
+		values
+		<foreach collection="list" item="vo" separator=",">
+			(#{vo.username},#{vo.authority})
+		</foreach>
+	</insert>
+	
+	<!--username 매개변수로 받아 어쩌구...  -->
+	<select id="select_auths" resultType="AuthorityVO">
+		select * from tbl_authorities where username=#{username}
+	</select>
+	
+
+	<select id="create_user_table">
+		create table if not exists tbl_users (
+			username varchar(20) primary key,
+			password varchar(255) not null,
+	
+			Enabled boolean default false,
+			AccountNonExpired boolean default true,
+			AccountNonLocked boolean default true,
+			CredentialsNonExpired boolean default true,
+	
+	
+			email varchar(30),
+			tel varchar(15),
+			realname varchar(20),
+			nickname varchar(20)
+		)
+	</select>
+	<select id="create_auth_table">
+		create table if not exists tbl_authorities (
+			seq bigint auto_increment primary key,
+		    username varchar(20),
+		    authority varchar(20)
+		)
+	</select>
+
+</mapper> 

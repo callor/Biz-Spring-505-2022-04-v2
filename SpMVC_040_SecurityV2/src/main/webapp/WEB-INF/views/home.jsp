@@ -96,7 +96,8 @@
 			</c:otherwise>
 		</c:choose>
 	</section>
-	<form:form id="logout-form" action="${rootPath}/logout" method="POST"/>
+	<form:form id="logout-form" 
+	action="${rootPath}/logout" method="POST"/>
 	<script>
 		document.querySelector("li.logout")?.addEventListener("click",()=>{
 			document.querySelector("form#logout-form")?.submit()

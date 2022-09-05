@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <mapper namespace="com.callor.exp.dao.UserDao">
+ 
+ 	<select id="selectAll" resultType="UserVO">
+ 	</select>
+ 	<select id="findById" resultType="UserVO">
+ 	</select>
+ 	<insert id="insert" parameterType="UserVO">
+ 		INSERT INTO tbl_users(
+ 			username, password, 
+ 			realname, nickname,
+ 			tel
+ 		) VALUES (
+ 			#{username}, #{password}, 
+ 			#{realname}, #{nickname},
+ 			#{tel}
+ 		)
+ 	</insert>
+ 	<update id="update" parameterType="UserVO">
+ 	</update>
+ 	<delete id="delete"></delete>
+ 	
+ 	
+ 	<select id="create_user_table">
+ 	CREATE TABLE IF NOT EXISTS tbl_users (
+		username VARCHAR(20) PRIMARY KEY,
+	    password VARCHAR(125) NOT NULL,
+	    realname VARCHAR(20),
+	    nickname VARCHAR(20),
+	    tel VARCHAR(15)
+	)
+ 	
+ 	</select>
+ 	
+ 	
+ 
+ </mapper> 

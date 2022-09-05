@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:sec="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/security https://www.springframework.org/schema/security/spring-security-5.3.xsd">
+
+	<!-- 
+	Spring Security Filter Chain 이 적용된 프로젝트에서 
+	Security와 관련된 설정을 하는 context
+	
+	root-context.xml 과 같은 level 의 위치에서 설정
+	-->
+	
+	<!-- 
+	sec:http
+	Security 의 기초 설정
+	1. security 가 적용될 url 지정하기
+	2. login 방법 지정
+	3. logout 방법 지정  
+	-->
+	<sec:http>
+		<sec:intercept-url 
+			pattern="/" access="permitAll"/>
+		<sec:intercept-url
+			pattern="/user/login" access="isAnonymous()"/>
+		<sec:intercept-url
+			pattern="/user/join" access="isAnonymous()"/>
+		<sec:intercept-url
+			pattern="/user/**" access="isAuthenticated()"/>
+
+		<sec:intercept-url
+			pattern="/book/insert" access="isAuthenticated()"/>
+		<sec:intercept-url
+			pattern="/book/update" access="isAuthenticated()"/>
+		<sec:intercept-url
+			pattern="/book/**" access="permitAll"/>
+
+		<sec:form-login	
+			login-page="/user/login?error=LOGIN_NEED"
+			login-processing-url="/user/login"
+			username-parameter="username"
+			password-parameter="password"
+		/>
+		<sec:logout
+			invalidate-session="true"
+			delete-cookies="JSESSIONID"
+			logout-success-url="/"
+		/>
+	</sec:http>
+	<!-- 
+	login-page 의 Custom 할때 주의 사항
+	위 설정에서 /user/** Request 는 무조건 로그인을 해야만 사용할수 있다
+	그런데 로그인이 필요한 페이지에 접속하였을 경우
+	Security 는 login-page 에 설정된 URL 로 Redirect 를 할 것이다
+	
+	근데 공고룝게도 user-page 의 URL 이 /login/ogin 으로 코드를 작성했다
+	이 URL 패턴은 /user/** 패턴에 의해 필터링 되어 다시 login-page 로 redirect 르한다
+	
+	이 과정이 무한이 계속 반복되는 상황이 벌어진다
+	
+	이 상황은 /user/ogin Request 무한하 호출하는 상황이 된다
+	
+	Web Browser 는 Server 로 부터 무한 반복 Redirect 를 요청받게 되고 Browser 자체
+	오류 메시지를 보여주게 된디
+	"리다이렉션 회수가 너무 많다"
+	-->
+
+	<!-- 
+	security 에 의해 login 이 수행될때 처리하는 방법 지정
+	user-service : inmemory 방식으로 login 방법 지정
+	 	처음 프로젝트를 시작하고 테스트를 수행할때 사용 
+	 	테스트를 위해서 임의의 사용자 정보를 등록하기
+	-->
+	<sec:authentication-manager>
+		<sec:authentication-provider>
+			<sec:user-service>
+				<sec:user name="callor" 
+					authorities="ROLE_ADMIN"
+					password="{noop}!aa1234"/>
+			</sec:user-service>
+		</sec:authentication-provider>
+	</sec:authentication-manager>
+
+
+
+
+</beans>
